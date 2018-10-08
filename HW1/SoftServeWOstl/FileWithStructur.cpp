@@ -7,6 +7,7 @@
 
 namespace generator
 {
+    int SizeFile;
     //есть проблема с кодировкой поэтому перепишу в английскую раскладку
     //char BigSymvol[] = "АБВГҐДЕЄЖЗІКЛМНОПРСТУФХЦЧШЩЮЯ";
     int MaxBig = 26;
@@ -62,7 +63,7 @@ int createFile(int argc, char** argv)
     }
     
     NameFile.close();                     // закриваемо файл
-    argc = LenghFile;
+    //SizeFile = LenghFile;
     return 0;
 }
 
@@ -82,15 +83,16 @@ bool CompareString(std::string s1, std::string s2)
 int SortFile(int argc, char** argv) 
 {
     bool Trust = true;
-    int maxSizeVector = argc;
+    int maxSizeVector = 0;
+    int SizeVector = 0;
     std::vector <std::string> SortList ;
-    SortList.reserve(maxSizeVector);
+    //SortList.reserve(maxSizeVector);
     
     //setlocale(LC_ALL, ".1251");
     std::string buff1,buff2; 
     std::ifstream NameFile("ListName.txt",std::ios_base::in); 
     std::ofstream NameFileTemp("ListName.txt.tmp",std::ios_base::out | std::ios_base::trunc);
-    
+    std::cout << "Vector size " << SizeFile<<"\n" ;
     if ((!NameFile.is_open())||(!NameFileTemp.is_open()))
     {  
         std::cout << "Error open file!\n" ;
@@ -100,28 +102,29 @@ int SortFile(int argc, char** argv)
     while (std::getline(NameFile, buff1))
     {
         SortList.push_back(buff1);
+        maxSizeVector++;
     }   
     NameFile.close();
-    
+    SizeVector = maxSizeVector;
     while(Trust)
     {
-        if (maxSizeVector<1)
+        if (SizeVector<1)
         {
             Trust = false;
             break;
         }
         
-        for(int i = 0;i<(maxSizeVector-1);i++)
+        for(int i = 0;i<(SizeVector-1);i++)
         {
             buff1 = SortList.at(i);
             buff2 = SortList.at(i+1);
-            if (!CompareString(buff1,buff2))
+            if (CompareString(buff1,buff2))
             {
                 SortList[i]   = buff2;
                 SortList[i+1] = buff1;
             }
         }
-        maxSizeVector--;
+        SizeVector--;
     }
 
     std::ofstream NameFileNew("ListName.txt",std::ios_base::out | std::ios_base::trunc);
@@ -131,10 +134,9 @@ int SortFile(int argc, char** argv)
       std::cout << "Error save sort file!\n" ;
       return 0 ;
     }
-    
-    for (auto& i :SortList)
+    for (int i =0; i < maxSizeVector;i++)
     {
-        std::cout << i ;
+        NameFileNew << SortList[i] << "\n"; ;
     }
 
     NameFileNew.close();
