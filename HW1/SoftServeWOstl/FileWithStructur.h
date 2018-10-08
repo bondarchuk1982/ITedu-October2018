@@ -10,7 +10,7 @@
 namespace generator
 {
     int createFile(int argc, char** argv);
-    bool CompareString(const char * s1, const char * s2);
+    bool CompareString(std::string s1, std::string s2);
     int SortFile(int argc, char** argv);
     
 }
