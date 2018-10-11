@@ -1,0 +1,1 @@
+http://www.drdobbs.com/cpp/how-to-use-reverse-iterators-without-get/240168652
