@@ -6,26 +6,23 @@
 #include <string>
 #include <ctime>
 #include <algorithm>
-#include <array>
+#include <list>
 #include <stdlib.h>
 #include <cstring>
 #include <sstream>
-#include <iterator>
-
+#include <functional>
 class SName
 {
 public:
     SName(); // Конструктор класса
 
-    void wFile(); // Создание или запись сгенерированных имён в файл
-    void rFile(); // Считывание данных из файла
+    bool creatFile(); // Создание или запись сгенерированных имён в файл
+    bool rFile(std::string&); // Считывание данных из файла
 
-private:
-    void stlSortArray(std::array<std::string, 5000>&); // STL метод сортировки
-    void sortArray(std::array<std::string, 5000>&); // собственный метод сортировки
-    void parseString(std::string&);
-    void arrayInTerminal(std::array<std::string, 5000>&); // вывод списка имён в терминал
-    void nameToNumber(std::array<std::string, 5000>&); // Перевод имён в цифры и получение общего числа для всех имён
+    void parseString(std::string&, std::list<std::string>&);
+    void arrayInTerminal(std::list<std::string>&); // вывод списка имён в терминал
+    double nameToNumber(std::list<std::string>&); // Перевод имён в цифры и получение общего числа для всех имён
+
 };
 
 #endif // SNAME_H
