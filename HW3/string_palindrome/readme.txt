@@ -1,0 +1,1 @@
+Unit tests + implementation of Functor Class that verifies whether a given string is a palindrome
