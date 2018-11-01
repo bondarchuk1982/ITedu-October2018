@@ -14,12 +14,20 @@ bool DataBase::connectToDataBase(const QString &file)
 // Метод для открытия базы данных
 bool DataBase::openDataBase(const QString &path)
 {
+    if (path == ""){
+        return false;
+    }
+
     if (db.databaseName() == path && db.isOpen()){
         return true;
     }
 
+    if (db.isOpen()){
+        closeDataBase();
+    }
     /* База данных открывается по заданному пути
-     * и имени базы данных, если она существует
+     * и имени базы данных, если она существует.
+     * Если не существуею то создаётся пустой файл.
      * */
     db = QSqlDatabase::addDatabase("QSQLITE");
     db.setDatabaseName(path);
@@ -34,7 +42,7 @@ bool DataBase::openDataBase(const QString &path)
 // Метод для отправки запросов в базу данных
 bool DataBase::sqlQuery(const QString &str)
 {
-    if (str == "")
+    if (str == "" || !db.isOpen())
         return false;
     // Запрос SQL формируется передаваемой строкой
     QSqlQuery query;
@@ -54,7 +62,7 @@ void DataBase::closeDataBase()
 {
     db.close();
 }
-// Мотод добавления записи в таблицу
+// Метод добавления записи в таблицу
 bool DataBase::onAdd()
 {
     if (oneContact.name == "" || oneContact.phone == "" || !db.isOpen()) {
@@ -78,7 +86,7 @@ bool DataBase::onAdd()
 
     return true;
 }
-// Мотод редактирования записи в таблице
+// Метод редактирования записи в таблице
 bool DataBase::onUpdate()
 {
     if (oneContact.name == "" || oneContact.phone == "" || !db.isOpen()) {
@@ -100,7 +108,7 @@ bool DataBase::onUpdate()
 
     return true;
 }
-// Мотод удаления записи в таблице
+// Метод удаления записи в таблице
 bool DataBase::onDelete()
 {
     if (oneContact.name == "" || oneContact.phone == "" || !db.isOpen()) {
